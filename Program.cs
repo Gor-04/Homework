@@ -1,94 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ConsoleApp1
+internal class Program
 {
-    internal class Program
+    static List<Book> library = new List<Book>();
+
+    static void Main(string[] args)
     {
- 
-        static void Main(string[] args)
+        while (true)
         {
-            
-            
-            /*  Console.WriteLine("Enter the temperature");
-              int temp = Convert.ToInt32(Console.ReadLine());
-              if (temp < 0)  Console.WriteLine("Freezing weather.");    
-              else if (temp >= 0 && temp < 10)  Console.WriteLine("Cold weather."); 
-              else if (temp >= 10 && temp < 30)Console.WriteLine("Cool weather."); 
-              else Console.WriteLine("Hot weather");*/
+            Console.WriteLine("1. Add Book");
+            Console.WriteLine("2. Remove Book");
+            Console.WriteLine("3. List All Books");
+            Console.WriteLine("4. Exit");
 
-            /*Console.WriteLine("Enter the age");
-            int age = Convert.ToInt32(Console.ReadLine());
-            if (age < 0) Console.WriteLine("Invalid input");
-            else if (age >= 0 && age < 13) Console.WriteLine("Child");
-            else if (age >= 13 && age <= 19) Console.WriteLine("teenager");
-            else Console.WriteLine("Adult");*/
+            Console.Write("Choose an option: ");
+            int choice = int.Parse(Console.ReadLine());
 
-            /*    Console.WriteLine("Select the option");
-                Console.WriteLine("Press 1 for F to C");
-                Console.WriteLine("Press 2 for C to F");
-                int num = Convert.ToInt32(Console.ReadLine());
-                if(num == 1)
-                {
-                    Console.WriteLine("Input temp in F");
-                    double temp = Convert.ToDouble(Console.ReadLine());
-                    Console.WriteLine("C is " + (temp - 32) * 5 / 9);
-                }
-                else if (num == 2)
-                {
-                    Console.WriteLine("Input temp in C");
-                    double temp1 = Convert.ToDouble(Console.ReadLine());
-                    Console.WriteLine("F is " + ((temp1) * 9 / 5 + 32));
-                }
-                else Console.WriteLine("Invalid option. Please select 1 or 2.");*/
+            switch (choice)
+            {
+                case 1:
+                    AddBook();
+                    break;
+                case 2:
+                    RemoveBook();
+                    break;
+                case 3:
+                    ListAllBooks();
+                    break;
+                case 4:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    }
 
-            /*  Console.WriteLine("Input number of elements");
-              int n = Convert.ToInt32(Console.ReadLine());
-              int[] arr = new int[n];
-              Console.WriteLine("Input elements");
-              for (int i = 0; i < arr.Length; i++)
-              {
-                  arr[i] = Convert.ToInt32(Console.ReadLine());
-              }
-              int mn = arr[0];
-              int mx = arr[0];
-              int scdndlarg = arr[0];
+    static void AddBook()
+    {
+        Console.Write("Enter book title: ");
+        string title = Console.ReadLine();
 
-              for(int i = 0; i < arr.Length; i++)
-              {
-                  if (mn > arr[i]) mn = arr[i];
-                  if(mx < arr[i]) mx = arr[i];
-              }
-              for (int i = 0; i < arr.Length; i++)
-              {
-                  if (mx != arr[i])
-                  {
-                      if (scdndlarg < arr[i])scdndlarg = arr[i];
-                  }
-              }
-              Console.WriteLine("Minimum is " + mn);
-              Console.WriteLine("Maximum is " + mx);
-              Console.WriteLine("Second Largest is " + scdndlarg);
-              for (int i = 0; i < n / 2; i++)
-              {
-                  int tmp = arr[i];
-                  arr[i] = arr[n - i - 1];
-                  arr[n - i - 1] = tmp;
-              }
-              Console.WriteLine("After Reversing array is");
-              for (int i = 0; i < n; i++)
-              {
-                  Console.WriteLine(arr[i]);
-              }
-  */
+        Console.Write("Enter author name: ");
+        string authorName = Console.ReadLine();
 
-            // Last One I have done in the classroom :D 
-            
-    
+        Console.Write("Enter author biography: ");
+        string authorBiography = Console.ReadLine();
 
+        Console.Write("Enter category name: ");
+        string categoryName = Console.ReadLine();
+
+        Console.Write("Enter category description: ");
+        string categoryDescription = Console.ReadLine();
+
+        Console.Write("Enter publication year: ");
+        int year = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter price: ");
+        double price = double.Parse(Console.ReadLine());
+
+        Author author = new Author(authorName, authorBiography);
+        Category category = new Category(categoryName, categoryDescription);
+        Book book = new Book(title, author, category, year, price);
+
+        library.Add(book);
+
+        Console.WriteLine("Book added successfully!");
+    }
+
+    static void RemoveBook()
+    {
+        Console.Write("Enter the title of the book to remove: ");
+        string titleToRemove = Console.ReadLine();
+
+        Book bookToRemove = library.Find(book => book.Title.Equals(titleToRemove, StringComparison.OrdinalIgnoreCase));
+
+        if (bookToRemove != null)
+        {
+            library.Remove(bookToRemove);
+            Console.WriteLine("Book removed successfully!");
+        }
+        else
+        {
+            Console.WriteLine("Book not found.");
+        }
+    }
+
+    static void ListAllBooks()
+    {
+        if (library.Count == 0)
+        {
+            Console.WriteLine("No books in the library.");
+        }
+        else
+        {
+            foreach (var book in library)
+            {
+                Console.WriteLine($"Title: {book.Title}, Author: {book.Author.Name}, Year: {book.Year}, Price: {book.Price:C}");
+            }
         }
     }
 }
